@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });    
 
     //timer//timer//timer//timer//timer//timer//timer//timer
-    const timeLine = '2021-01-02';
+    const timeLine = '2023-01-03';
     
     function getTime (line){
         let days, hours, minutes, seconds;
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const t = getTime(timeLine);
             days.innerHTML = getZero(t.days);
             hours.innerHTML = getZero(t.hours);
-            minutes.innerHTML = getZero(t.minutes); 
+            minutes.innerHTML = getZero(t.minutes);
             seconds.innerHTML = getZero(t.seconds);
             if(t.time <= 0 ){
                 clearInterval(timeInterval);
@@ -103,4 +103,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setClock('.timer', timeLine);
 
+    //Modal Window//Modal Window//Modal Window//Modal Window
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
+          modalWindow = document.querySelector('.modal'),
+          modalCloseBtn = document.querySelector('[modal-close]');
+
+    function openModal(window) {
+        window.classList.add('show');
+        window.classList.remove('hide');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal (window) {
+        window.classList.add('hide');
+        window.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', () => {
+            openModal(modalWindow);
+        });
+
+    });
+    modalCloseBtn.addEventListener('click', () => {
+        closeModal(modalWindow);
+    });
+    
+    modalWindow.addEventListener('click', (e) => {
+        if(e.target === modalWindow){
+            closeModal(modalWindow);
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if(e.code === 'Escape' && modalWindow.classList.contains('show')){
+            closeModal(modalWindow);
+        }
+    });
 });
