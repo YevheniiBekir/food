@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });    
 
     //timer//timer//timer//timer//timer//timer//timer//timer
-    const timeLine = '2023-01-03';
+    const timeLine = '2023-02-03';
     
     function getTime (line){
         let days, hours, minutes, seconds;
@@ -154,4 +154,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     window.addEventListener('scroll', showModalByScroll);
+
+
+
+    //Creation new food-cards//Creation new food-cards//Creation new food-cards
+    class NewMenuCard{
+        constructor(src, alt, title, desc, price, transfer, parent, ...classes){
+            this.src = src;
+            this.alt = alt;
+            this.title = title;
+            this.desc = desc;
+            this.price = price;
+            this.transfer = transfer;
+            this.classes = classes;
+            this.parent = document.querySelector(parent);
+            this.curChange();
+            
+        }
+
+        curChange(){
+            this.price = this.price * this.transfer;
+        }
+
+        render(){
+            const element = document.createElement('div');
+
+            if(this.classes.length === 0){
+                this.element = 'menu__item';
+                element.classList.add(this.element);
+            } else {
+                this.classes.forEach(classEl => {
+                    element.classList.add(classEl);
+                });
+            }
+            
+            element.innerHTML = `
+            <img src=${this.src} alt=${this.alt}>
+            <h3 class="menu__item-subtitle">${this.title}</h3>
+            <div class="menu__item-descr">${this.desc}</div>
+            <div class="menu__item-divider"></div>
+            <div class="menu__item-price">
+                <div class="menu__item-cost">Цена:</div>
+                <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+            </div>`;
+        this.parent.append(element);
+        }
+    }
+
+
+
+    new NewMenuCard(
+        '"img/tabs/vegy.jpg"',
+        '"vegy"',
+        'Меню "Фитнес"',
+        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+        9,
+        36,
+        '.menu .container'
+    ).render();
+    new NewMenuCard(
+        '"img/tabs/vegy.jpg"',
+        '"vegy"',
+        'Меню "Фитнес"',
+        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+        5,
+        36,
+        '.menu .container'
+    ).render();
+    new NewMenuCard(
+        '"img/tabs/vegy.jpg"',
+        '"vegy"',
+        'Меню "Фитнес"',
+        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+        3,
+        36,
+        '.menu .container'
+    ).render();
+
 });
