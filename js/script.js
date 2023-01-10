@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    const timeOfModalOpen = setTimeout(openModal, 5000);
+    const timeOfModalOpen = setTimeout(openModal, 15000);
 
 
     function showModalByScroll(){
@@ -203,32 +203,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    new NewMenuCard(
+    const vegyMenuCard = new NewMenuCard(
         '"img/tabs/vegy.jpg"',
         '"vegy"',
         'Меню "Фитнес"',
         'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        9,
+        7,
         36,
         '.menu .container'
-    ).render();
-    new NewMenuCard(
-        '"img/tabs/vegy.jpg"',
-        '"vegy"',
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+    );
+    vegyMenuCard.render();
+    
+    const premiumMenuCard = new NewMenuCard(
+        '"img/tabs/elite.jpg"',
+        '"elite"',
+        'Меню “Премиум”',
+        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+        11,
+        36,
+        '.menu .container'
+    );
+    premiumMenuCard.render();
+
+    const postMenuCard = new NewMenuCard(
+        '"img/tabs/post.jpg"',
+        '"post"',
+        'Меню "Постное"',
+        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
         5,
         36,
         '.menu .container'
-    ).render();
-    new NewMenuCard(
-        '"img/tabs/vegy.jpg"',
-        '"vegy"',
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        3,
-        36,
-        '.menu .container'
-    ).render();
+    );
+    postMenuCard.render();
+
+    //posting data in backend//posting data in backend
+    const forms = document.querySelectorAll('form');
+    const message = {
+        loading: 'Завантаження',
+        success: 'Вітання, ваш запит пройшов успішно !',
+        failure: 'Упс... Сталася помилка :('
+    };
+
+    forms.forEach(item => {
+        postData(item);
+    });
+
+    function postData(form){
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const textMessage = document.createElement('div');
+            textMessage.textContent = message.loading;
+            form.append(textMessage);
+
+            const request = new XMLHttpRequest();
+            const formData = new FormData(form);
+            request.open('POST', 'server.php');
+            // request.setRequestHeader('Content-type', 'multipart/form-data');       //це заголовок, у дані зв'язці XMLHttpRequest та FormData його не потрібно писати !
+            request.send(formData);
+
+            request.addEventListener('load', () => {
+                if(request.status === 200){
+                    console.log(request.response);
+                    textMessage.textContent = message.success;
+                }else{
+                    textMessage.textContent = message.failure;
+                }
+            });
+        });
+    }
 
 });
